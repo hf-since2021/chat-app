@@ -1,7 +1,7 @@
 <div class="chat-header">
   <div class="left-header">
     <div class="header-title">
-      Sample_Title
+      <%= @room.name %>
     </div>
   </div>
   <div class="right-header">
@@ -10,23 +10,14 @@
     </div>
   </div>
 </div>
+
 <div class="messages">
-  <div class="message">
-    <div class="upper-message">
-      <div class="message-user">
-        Matthew
-      </div>
-      <div class="message-date">
-        2022/01/01 10:00:00
-      </div>
-    </div>
-    <div class="lower-message">
-      <div class="message-content">
-        test message
-      </div>
-    </div>
-  </div>
+  <%= render partial: 'message', collection: @messages %>
+  <%# @messages.each do |message| %>
+    <%#= render partial: "message", locals: { message: message } %>
+  <%# end %>
 </div>
+
 <%= form_with model: [@room, @message], class: 'form', local: true do |f| %>
   <div class="form-input">
     <%= f.text_field :content, class: 'form-message', placeholder: 'type a message' %>

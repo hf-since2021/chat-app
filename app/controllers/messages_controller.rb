@@ -2,6 +2,7 @@ class MessagesController < ApplicationController
   def index
     @message = Message.new
     @room = Room.find(params[:room_id])
+    @messages = Message.includes(:room).order("created_at ASC")
   end
 
   def create
@@ -9,8 +10,8 @@ class MessagesController < ApplicationController
     @message = @room.messages.new(message_params)
     #@message = Message.new(params[:message].permit(:content).merge(room_id: params[:room_id], user_id: current_user.id))
     #@message = Message.new(params.require(:message).permit(:content).merge(room_id: params[:room_id], user_id: current_user.id))    
-    #@message.save
     if @message.save
+      @messages = Message.includes(:room).order("created_at ASC")
       redirect_to room_messages_path(@room)
     else
       render :index

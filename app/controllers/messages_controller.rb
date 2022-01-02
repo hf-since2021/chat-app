@@ -11,9 +11,9 @@ class MessagesController < ApplicationController
     #@message = Message.new(params[:message].permit(:content).merge(room_id: params[:room_id], user_id: current_user.id))
     #@message = Message.new(params.require(:message).permit(:content).merge(room_id: params[:room_id], user_id: current_user.id))    
     if @message.save
-      @messages = Message.includes(:room).order("created_at ASC")
       redirect_to room_messages_path(@room)
     else
+      @messages = @room.messages.includes(:user)
       render :index
     end
   end
